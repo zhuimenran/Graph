@@ -1,4 +1,4 @@
-package com.txb.utils;
+package com.txb.rbt.utils;
 
 /**
  * Java 语言: 二叉查找树
