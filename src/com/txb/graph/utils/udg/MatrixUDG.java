@@ -25,6 +25,7 @@ public class MatrixUDG {
         int vlen = readInt();
         System.out.printf("input edge number: ");
         int elen = readInt();
+        //保证输入图的数据合理
         if ( vlen < 1 || elen < 1 || (elen > (vlen*(vlen - 1)))) {
             System.out.printf("input error: invalid parameters!\n");
             return ;
@@ -52,6 +53,7 @@ public class MatrixUDG {
                 return ;
             }
 
+            //无向图边的设置
             mMatrix[p1][p2] = 1;
             mMatrix[p2][p1] = 1;
         }
@@ -79,6 +81,7 @@ public class MatrixUDG {
         mMatrix = new int[vlen][vlen];
         for (int i = 0; i < elen; i++) {
             // 读取边的起始顶点和结束顶点
+        	//AB，AC,AD
             int p1 = getPosition(edges[i][0]);
             int p2 = getPosition(edges[i][1]);
 
