@@ -1,4 +1,4 @@
-package com.txb.graph.utils;
+package com.txb.graph.utils.udg;
 
 /**
  * Java: 邻接矩阵表示的"无向图(List Undirected Graph)"
