@@ -33,11 +33,23 @@ public class MatrixUdGraph implements Graph{
 	}
 	
 	public  MatrixUdGraph() {
+		System.out.println("dfg");
 		this.edg_size = 0;
 		this.captity = NUMOFNODE;
 		this.matrix = new int[NUMOFNODE][NUMOFNODE];
 		this.nodes = new Node[NUMOFNODE];
 		this.node_size = 0;
+		 //设置顶点
+		   for(int i = 0; i < NUMOFNODE; i++) {
+			   this.nodes[i].setIndex(i);
+			   this.nodes[i].setName("null");
+		   }
+		   //设置边
+		   for(int i = 0; i < NUMOFNODE; i++) {
+				for(int j = 0; j < NUMOFNODE; j++) {
+					matrix[i][j] = 0;
+				}
+			}
 	}
 	
 
@@ -74,21 +86,23 @@ public class MatrixUdGraph implements Graph{
 	//添加顶点
 	@Override
 	public void addNode(String name) {
-		if(this.contains(name)) {
+		/*if(this.contains(name)) {
 			throw new IllegalArgumentException("已经有这个节点了");
-		}else {
+		}else {*/
 			
 			//重构顶点数组
 			//重构邻接矩阵
-			this.node_size ++;
-			if(this.node_size>this.captity) {
+			
+			if(this.node_size+1>this.captity) {
 				resize(2*this.captity);
 			}
 			
-			nodes[node_size-1].setName(name);
-			nodes[node_size-1].setIndex(node_size);
+			if(node_size<this.captity) {
+				nodes[this.node_size].setName(name);
+				nodes[this.node_size].setIndex(node_size);
+				this.node_size++;
+			}
 			
-		}
 		
 	}
 

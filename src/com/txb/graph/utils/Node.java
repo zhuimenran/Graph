@@ -11,20 +11,23 @@ public class Node {
     
     //构造函数
 	public Node() {
-		super();
+		this.index = 0;
+		this.name = "null";
+		this.example =" null";
 	}
 	
 	public Node(String name) {
-		super();
+		this.index = 0;
 		this.name = name;
+		this.example = "null";
 	}
 	public Node(int index, String name) {
-		super();
+		
 		this.index = index;
 		this.name = name;
+		this.example = "null";
 	}
 	public Node(int index, String name, String example) {
-		super();
 		this.index = index;
 		this.name = name;
 		this.example = example;
