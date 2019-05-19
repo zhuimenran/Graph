@@ -25,7 +25,7 @@ public class TestGraph {
 		graphudg.printMatrix();
 		graphudg.BreadthFirstSearch();
 		*/
-		MatrixUdGraph graphudg = new MatrixUdGraph();
+		MatrixGraph graphudg = new MatrixGraph();
 		System.out.println(graphudg.getNumOfNode());
 		graphudg.addNode('A');
 		graphudg.addNode('B');
@@ -39,9 +39,9 @@ public class TestGraph {
 		graphudg.addEdg(2, 4);
 		graphudg.addEdg(4, 3);
 		System.out.println();
-		System.out.println("邻接矩阵无向图：");
+		System.out.println("邻接矩阵有向图：");
 		graphudg.printMatrix();
-		System.out.println("邻接矩阵无向图dfs：");
+		System.out.println("邻接矩阵有向图dfs：");
 		graphudg.DepthFirstSearch();
 		
 	}
