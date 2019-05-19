@@ -6,7 +6,7 @@ package com.txb.graph.utils;
  */
 public class MatrixUdGraph implements Graph{
 
-	private Node[] nodes;//顶点数组
+	private char[] nodes;//顶点数组
 	private int[][]  matrix;//邻接矩阵
 	private int node_size;//顶点的数量
 	private int edg_size;//边的数量
@@ -14,36 +14,36 @@ public class MatrixUdGraph implements Graph{
 	private int captity;//容量
 	
 	//构造函数
-	public MatrixUdGraph(String []nodes) {
+	public MatrixUdGraph(char []nodes) {
 		this.node_size = nodes.length;
 		this.captity = NUMOFNODE;
-	   this.nodes = new Node[NUMOFNODE];
+	   this.nodes = new char[NUMOFNODE];
+	   
+	   if(nodes.length>this.captity) {
+		   resize(this.captity*2);
+	   }
 	   
 	   //设置顶点
 	   for(int i = 0; i < node_size; i++) {
-		   this.nodes[i].setIndex(i);
-		   this.nodes[i].setName(nodes[i]);
+		   this.nodes[i] = nodes[i];
 	   }
 	   //设置边
-	   for(int i = 0; i < NUMOFNODE; i++) {
-			for(int j = 0; j < NUMOFNODE; j++) {
+	   for(int i = 0; i < this.node_size; i++) {
+			for(int j = 0; j < this.node_size; j++) {
 				matrix[i][j] = 0;
 			}
 		}
 	}
 	
 	public  MatrixUdGraph() {
-		System.out.println("dfg");
+		//System.out.println("dfg");
 		this.edg_size = 0;
 		this.captity = NUMOFNODE;
 		this.matrix = new int[NUMOFNODE][NUMOFNODE];
-		this.nodes = new Node[NUMOFNODE];
+		this.nodes = new char[NUMOFNODE];
 		this.node_size = 0;
 		 //设置顶点
-		   for(int i = 0; i < NUMOFNODE; i++) {
-			   this.nodes[i].setIndex(i);
-			   this.nodes[i].setName("null");
-		   }
+		
 		   //设置边
 		   for(int i = 0; i < NUMOFNODE; i++) {
 				for(int j = 0; j < NUMOFNODE; j++) {
@@ -68,7 +68,7 @@ public class MatrixUdGraph implements Graph{
 	//扩容缩容
 	private void resize(int newCaptity) {
 		//更新数组
-		Node []newNode = new Node[newCaptity];
+		char []newNode = new char[newCaptity];
 		for(int i = 0; i < node_size; i++) {
 			newNode[i] = nodes[i];
 		}
@@ -85,10 +85,10 @@ public class MatrixUdGraph implements Graph{
 	
 	//添加顶点
 	@Override
-	public void addNode(String name) {
-		/*if(this.contains(name)) {
+	public void addNode(char name) {
+		if(contains(name)) {
 			throw new IllegalArgumentException("已经有这个节点了");
-		}else {*/
+		}else {
 			
 			//重构顶点数组
 			//重构邻接矩阵
@@ -98,18 +98,18 @@ public class MatrixUdGraph implements Graph{
 			}
 			
 			if(node_size<this.captity) {
-				nodes[this.node_size].setName(name);
-				nodes[this.node_size].setIndex(node_size);
+				nodes[this.node_size] = name;
+				
 				this.node_size++;
 			}
-			
+		}
 		
 	}
 
 	//是否已包含顶点
-	private boolean contains(String name) {
+	private boolean contains(char name) {
 		for(int i = 0; i < node_size; i++) {
-			if(nodes[i].getName().compareTo(name)==0) {
+			if(nodes[i] == name) {
 				return true;
 			}
 		}
@@ -124,9 +124,9 @@ public class MatrixUdGraph implements Graph{
 	}
 
 	//根据name查找边顶点的索引
-	private int getIndexByName(String name) {
+	private int getIndexByName(char name) {
 		for(int i = 0; i<node_size; i++) {
-			if(nodes[i].getName().compareTo(name)==0) {
+			if(nodes[i]==name) {
 				return i;
 			}
 		}
@@ -135,7 +135,7 @@ public class MatrixUdGraph implements Graph{
 	
 	//添加边
 	@Override
-	public void addEdg(String start_name, String end_name) {
+	public void addEdg(char start_name, char end_name) {
 		int start_index = getIndexByName(start_name);
 		int end_index = getIndexByName(end_name);
 		
@@ -162,37 +162,54 @@ public class MatrixUdGraph implements Graph{
 	}
 	
 	//广度优先搜索
+	/**
+	 * 广度优先搜索不适应用递归方法
+	 */
 	@Override
 	public void BreadthFirstSearch() {
 		
+		//辅助队列
+		int []queue = new int[node_size];
+		int rear = 0;
+		int head = 0;
 		//顶点标记
 		boolean []visited = new boolean[node_size];
 		for(int i = 0; i<node_size; i++) {
 			visited[i] = false;
 		}
-		int unvis = node_size;
-		BFS(0,visited);
-		while(unvis!=0) {
-			for(int i = 0; i < node_size; i++) {
-				if(visited[i] == false) {
-					BFS(i,visited);
+		
+		
+		//找到开始节点和再开始节点
+	  for(int i = 0; i < node_size; i++) {
+			if(!visited[i]) {
+					visited[i] = true;//改变访问状态
+					System.out.printf("%c",nodes[i]);
+					queue[rear++] = i;
 				}
-			}
-		}
+			 while (head != rear) {
+	                int j = queue[head++];  // 出队列
+	                int []fac = new int[node_size];
+	                fac = findFacingEdg(j);
+	                for (int k = 0; k <fac.length; k++) { //fac[k]是为访问的邻接顶点
+	                    if (!visited[fac[k]]) {
+	                        visited[fac[k]] = true;
+	                        System.out.printf("%c ",nodes[fac[k]] );
+	                        queue[rear++] = fac[k];
+	                    }
+	                }
+	            }
+	  }
 		
-		
+	  System.out.printf("\n");
+
 	}
 
-	private void BFS(int index, boolean []visited) {
-		System.out.println(nodes[index].getName());
-		visited[index] = true;
-		int []fac = new int[node_size-1];
-		fac = findFacingEdg(index);
-		for(int i = 0; i<node_size; i++) {
-			if(!visited[fac[i]]) {
-				//没有访问过且为index的连接点
-				BFS(i,visited);
+	public void printMatrix() {
+		for(int i = 0; i < node_size; i++) {
+			for(int j = 0; j < node_size; j++) {
+				 System.out.print(matrix[i][j]);
 			}
+			 System.out.printf("\n");
 		}
 	}
 	
@@ -207,7 +224,7 @@ public class MatrixUdGraph implements Graph{
 		
 	}
 	private void DFS(int index, boolean []visited) {
-		System.out.println(nodes[index].getName());
+		System.out.println(nodes[index]);
 		visited[index] = true;
 		int []fac = new int[node_size-1];
 		fac = findFacingEdg(index);
