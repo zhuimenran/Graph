@@ -220,21 +220,25 @@ public class MatrixUdGraph implements Graph{
 		for(int i = 0; i<node_size; i++) {
 			visited[i] = false;
 		}
-		DFS(0,visited);
-		
+		System.out.printf("DFS: ");
+        for (int i = 0; i < node_size; i++) {
+            if (!visited[i])
+                DFS(i, visited);
+        }
+        System.out.printf("\n");
 	}
+	
 	private void DFS(int index, boolean []visited) {
-		System.out.println(nodes[index]);
+		System.out.print(nodes[index]);
 		visited[index] = true;
-		int []fac = new int[node_size-1];
+		
+		int []fac = new int[node_size];
 		fac = findFacingEdg(index);
-		for(int i = 0; i<node_size; i++) {
-			if(!visited[fac[i]]) {
-				//没有访问过且为index的连接点
-				DFS(i,visited);
-				break;
-			}
-		}
+        for (int k = 0; k <fac.length; k++) { //fac[k]是为访问的邻接顶点
+            if (!visited[fac[k]]) {
+              DFS(fac[k],visited);
+            }
+        }
 	}
 
 }
