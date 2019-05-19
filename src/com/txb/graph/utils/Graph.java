@@ -14,10 +14,10 @@ public interface Graph {
 	public int getNumOfEdg();//得到边的数量
 	
 	//设置顶点
-	public  void addNode(String name);
+	public  void addNode(char name);
 	
 	//设置边
 	public void addEdg(int start_index, int end_index);
-	public void addEdg(String start_name, String end_name);
+	public void addEdg(char start_name, char end_name);
 	
 }
