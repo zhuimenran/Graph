@@ -33,7 +33,7 @@ public class ListUDG {
     public ListUDG() {
 
         // 输入"顶点数"和"边数"
-        System.out.printf("input vertex number: ");
+    	System.out.printf("input vertex number: ");
         int vlen = readInt();
         System.out.printf("input edge number: ");
         int elen = readInt();
